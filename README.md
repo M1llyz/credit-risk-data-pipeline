@@ -2,7 +2,7 @@
 
 ![Status](https://img.shields.io/badge/Status-Em_andamento-darkorange?style=for-the-badge)
 ![Tecnologias](https://img.shields.io/badge/Tecnologias-Python%20%7C%20SQL%20%7C%20Pandas-blue?style=for-the-badge)
-![Tipo de Projeto](https://img.shields.io/badge/Tipo-Projeto%20POO-darkgreen?style=for-the-badge)
+![Tipo de Projeto](https://img.shields.io/badge/Tipo-Data%20Engineering%20Pipeline-darkgreen?style=for-the-badge)
 
 
 Este projeto tem como objetivo construir um pipeline de engenharia de dados utilizando o dataset **German Credit**, disponibilizado pela UCI. A proposta é simular, na prática, como dados brutos podem ser coletados, tratados e preparados para uso em análises ou sistemas de dados.
