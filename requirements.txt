@@ -1,0 +1,5 @@
+requests
+pandas
+pyarrow
+
+# pip freeze > requirements.txt (rodar sempre que adicionar uma nova dependência/biblioteca pra atualizar)
