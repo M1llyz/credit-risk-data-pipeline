@@ -12,7 +12,10 @@ from mappings import (
     property_map,
     housing_map,
     job_map,
-    target_map
+    target_map,
+    other_installment_plans_map,
+    telephone_map,
+    foreign_worker_map
 )
 
 BRONZE_FILE_PATH = "data/bronze/german.data"
@@ -64,6 +67,9 @@ def transform_data(df: pd.DataFrame) -> pd.DataFrame:
     df["housing"] = df["housing"].map(housing_map)
     df["job"] = df["job"].map(job_map)
     df["target"] = df["target"].map(target_map)
+    df["other_installment_plans"] = df["other_installment_plans"].map(other_installment_plans_map)
+    df["telephone"] = df["telephone"].map(telephone_map)
+    df["foreign_worker"] = df["foreign_worker"].map(foreign_worker_map)
 
     return df
 
@@ -80,7 +86,7 @@ def validate_data(df: pd.DataFrame) -> None:
     print("\n3. Verificando tipos de dados:")
     print(df.dtypes)
 
-    print("\n4. Verificando se ainda existem códigos do tipo AXX:")
+    print("\n4. Verificando se ainda existem códigos do tipo A:")
 
     columns_to_check = [
         "checking_account",
@@ -92,7 +98,10 @@ def validate_data(df: pd.DataFrame) -> None:
         "other_debtors",
         "property",
         "housing",
-        "job"
+        "job",
+        "other_installment_plans",
+        "telephone",
+        "foreign_worker"
     ]
 
     for column in columns_to_check:

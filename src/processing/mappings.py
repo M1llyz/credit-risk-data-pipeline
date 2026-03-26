@@ -81,3 +81,21 @@ personal_status_sex_map = {
     "A94": "homem casado/viúvo",
     "A95": "mulher solteira"
 }
+
+other_installment_plans_map = { 
+    "A141": "banco",
+    "A142": "lojas",
+    "A143": "nenhum"
+}
+
+foreign_worker_map = {
+    "A201": "sim",
+    "A202": "não"
+}
+
+telephone_map = {
+    "A191": "nenhum telefone registrado",
+    "A192": "telefone registrado"
+}
+
+
