@@ -67,6 +67,40 @@ def transform_data(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
+def validate_data(df: pd.DataFrame) -> None:
+    print("\nIniciando validação dos dados...")
+
+    print("\n1. Verificando dimensões do dataset:")
+    print(f"Linhas: {df.shape[0]}")
+    print(f"Colunas: {df.shape[1]}")
+
+    print("\n2. Verificando valores nulos por coluna:")
+    print(df.isnull().sum())
+
+    print("\n3. Verificando tipos de dados:")
+    print(df.dtypes)
+
+    print("\n4. Verificando se ainda existem códigos do tipo AXX:")
+
+    columns_to_check = [
+        "checking_account",
+        "credit_history",
+        "purpose",
+        "savings_account",
+        "employment_since",
+        "personal_status_sex",
+        "other_debtors",
+        "property",
+        "housing",
+        "job"
+    ]
+
+    for column in columns_to_check:
+        remaining_codes = df[column].astype(str).str.startswith("A").sum()
+        print(f"{column}: {remaining_codes} valores ainda codificados")
+
+    print("\nValidação concluída.")
+
 
 def load_silver_data(df: pd.DataFrame, output_path: str) -> None:
     os.makedirs(SILVER_DIR, exist_ok=True)
@@ -83,23 +117,12 @@ def main():
     print("Visualizando resultado...")
     print(df_silver.head())
 
-    print("Salvando dados na camada Silver...")
+    validate_data(df_silver)
+
+    print("\nSalvando dados na camada Silver...")
     load_silver_data(df_silver, SILVER_FILE_PATH)
 
     print(f"Arquivo salvo com sucesso em: {SILVER_FILE_PATH}")
-
-    # Validação dos dados
-    print("\nVerificando valores nulos por coluna:")
-    print(df_silver.isnull().sum())
-
-    print("\nTipos de dados:")
-    print(df_silver.dtypes)
-
-    print("Salvando dados na camada Silver...")
-    load_silver_data(df_silver, SILVER_FILE_PATH)
-
-    print(f"Arquivo salvo com sucesso em: {SILVER_FILE_PATH}")
-
 
 if __name__ == "__main__":
     main()
