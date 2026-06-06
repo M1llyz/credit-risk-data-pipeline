@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-from mappings import (
+from src.processing.mappings import (
     checking_account_map,
     credit_history_map,
     purpose_map,

@@ -7,27 +7,76 @@ DATABASE = "CreditRiskDB"
 TABLE_NAME = "german_credit"
 
 
-def get_connection():
+def get_connection(database: str = DATABASE):
     connection_string = (
         "DRIVER={ODBC Driver 17 for SQL Server};"
         f"SERVER={SERVER};"
-        f"DATABASE={DATABASE};"
+        f"DATABASE={database};"
         "Trusted_Connection=yes;"
         "TrustServerCertificate=yes;"
     )
     return pyodbc.connect(connection_string)
 
+def create_database_if_not_exists():
+    conn = get_connection("master")
+    conn.autocommit = True
+
+    cursor = conn.cursor()
+
+    cursor.execute(f"""
+    IF DB_ID('{DATABASE}') IS NULL
+        CREATE DATABASE {DATABASE};
+    """)
+
+    cursor.close()
+    conn.close()
+
+def create_table_if_not_exists():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(f"""
+    IF OBJECT_ID('{TABLE_NAME}', 'U') IS NULL
+    CREATE TABLE {TABLE_NAME} (
+        checking_account VARCHAR(100),
+        duration INT,
+        credit_history VARCHAR(100),
+        purpose VARCHAR(100),
+        credit_amount INT,
+        savings_account VARCHAR(100),
+        employment_since VARCHAR(100),
+        installment_rate INT,
+        personal_status_sex VARCHAR(100),
+        other_debtors VARCHAR(100),
+        residence_since INT,
+        property VARCHAR(100),
+        age INT,
+        other_installment_plans VARCHAR(100),
+        housing VARCHAR(100),
+        existing_credits INT,
+        job VARCHAR(100),
+        num_dependents INT,
+        telephone VARCHAR(100),
+        foreign_worker VARCHAR(100),
+        target VARCHAR(50)
+    )
+    """)
+
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 def extract_silver_data(file_path: str) -> pd.DataFrame:
     df = pd.read_parquet(file_path)
     return df
 
-
 def truncate_table(cursor) -> None:
     cursor.execute(f"DELETE FROM {TABLE_NAME};")
 
-
 def load_data_to_sqlserver(df: pd.DataFrame) -> None:
+    create_database_if_not_exists()
+    create_table_if_not_exists()
+
     conn = get_connection()
     cursor = conn.cursor()
 
@@ -90,6 +139,20 @@ def load_data_to_sqlserver(df: pd.DataFrame) -> None:
     cursor.close()
     conn.close()
 
+    validate_load()
+
+def validate_load():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(f"SELECT COUNT(*) FROM {TABLE_NAME}")
+    
+    total_registros = cursor.fetchone()[0]
+
+    print(f"Total de registros carregados no SQL Server: {total_registros}")
+    
+    cursor.close()
+    conn.close()
 
 def main():
     print("Lendo dados da camada Silver...")
