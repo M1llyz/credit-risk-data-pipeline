@@ -17,8 +17,6 @@ Então o foco desse projeto é justamente transformar esses dados brutos em dado
 
 ## ⚙️ O que já foi implementado
 
-pipeline end-to-end capaz de:
-
 - Ingestão automática de dados direto da fonte original (UCI)
 - Armazenar dados brutos na camada bronze
 - Transformar e padronizar os dados (conversão de atributos categóricos codificados em valores legíveis)
